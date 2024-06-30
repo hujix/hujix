@@ -159,7 +159,7 @@ Ubuntu2204 config --default-user <username>
 
 在用户目录打开CMD ， 输入`code .wslconfig` （vscode的命令，手动创建可能会失效）
 
-```textile
+```text
 [wsl2]
 processors=4
 memory=2GB

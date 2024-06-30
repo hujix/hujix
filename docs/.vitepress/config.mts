@@ -20,7 +20,7 @@ export default defineConfig({
       //     { text: "Item C", link: "/item-3" },
       //   ],
       // },
-      { text: "关于", link: "/base/about" },
+      // { text: "关于", link: "/base/about" },
     ],
     sidebar: [
       // {

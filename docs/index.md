@@ -8,14 +8,14 @@ hero:
   # tagline: 
   image:
     # src: /logo/sw.png
-    alt: ScenarioWizard
+    alt: My personal website.
   actions:
     - theme: brand
       text: 开始
-      link: /base/get-start
-    - theme: alt
-      text: API Examples
-      link: /api-examples
+      link: /envs
+    # - theme: alt
+    #   text: API Examples
+    #   link: /api-examples
 
 # features:
 #   - icon:
