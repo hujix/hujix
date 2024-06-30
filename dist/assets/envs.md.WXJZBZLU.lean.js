@@ -1,1 +1,0 @@
-import{_ as s,c as i,o as a,a3 as n}from"./chunks/framework.BzAvIVvI.js";const F=JSON.parse('{"title":"软件破解","description":"","frontmatter":{},"headers":[],"relativePath":"envs.md","filePath":"envs.md"}'),l={name:"envs.md"},p=n("",52),e=[p];function h(t,k,r,d,E,c){return a(),i("div",null,e)}const o=s(l,[["render",h]]);export{F as __pageData,o as default};
