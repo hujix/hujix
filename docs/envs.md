@@ -161,12 +161,25 @@ Ubuntu2204 config --default-user <username>
 
 ```text
 [wsl2]
-processors=4
-memory=2GB
-swap=2GB
-localhostForwarding=true
-```
+processors=3
+memory=4GB
+swap=3GB
 
+[experimental]
+autoMemoryReclaim=gradual  
+networkingMode=mirrored
+dnsTunneling=true
+firewall=true
+autoProxy=true
+```
+以上配置会使wsl的ubuntu的网段和win对应，比如localhost同时指win和ubuntu，这样就可以在win上使用localhost直接访问ubuntu的端口了。
+
+5. 修改wsl2的默认网段
+
+```powershell
+# 修改wsl2的默认网段
+netsh interface ipv4 set address "vEthernet (WSL)" static 192.168.1.1 255.255.255.0 192.168.1.1
+# 修改wsl2的默认网关
 
 修改完成之后需要重启wsl2才能生效
 
