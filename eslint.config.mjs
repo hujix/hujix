@@ -14,6 +14,7 @@ export default antfu(
       css: true,
       markdown: true,
     },
+    ignores: ["**/node_modules/**", "**/*.md"],
   },
   {
     files: ["**/*.vue"],
