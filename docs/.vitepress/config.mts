@@ -2,7 +2,6 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  outDir: "../../dist",
   title: "Coding Notebook",
   //   description: "My blog",
   lang: "zh-CN",
