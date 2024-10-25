@@ -1,5 +1,3 @@
-{docsify-updated}
-
 # Pydroid 3 第三方库安装方案
 
 ---

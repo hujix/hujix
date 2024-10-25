@@ -1,7 +1,5 @@
-{docsify-updated}
-
 <div align='center'>
-  <img src="Docsify/img/docsify-logo.svg" alt="dicsify">
+  <!-- <img src="Docsify/img/docsify-logo.svg" alt="dicsify"> -->
 </div>
 
 # Docsify 添加代码行数
