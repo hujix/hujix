@@ -1,6 +1,6 @@
 # AcFun 弹幕视频网
 
-![AcFun](\img\acfun.png)
+![AcFun](./img/acfun.png)
 
 ## 单个视频
 
@@ -11,19 +11,19 @@
 > [【仙女 UP 特辑】AcFun Family Party —— 成都站](https://www.acfun.cn/v/ac18716490)
 
 直接在浏览器端打开并抓包该链接发现，在 **XHR** 的类型下，第一条（又或者某一次）的请求就加载了视频的真实请求链接：
-![AcFun](\img\acfun1.png)
+![AcFun](./img/acfun1.png)
 
 虽然本身仅仅是一个 **m3u8** 文件，不过我们还是有办法处理的，我们在此之前先必须要找到该文件的请求是从哪里发出来的，又或者能够在哪里找到这个链接。
 
 在找遍了 **XHR** 类型下的数据无果后，我决定去看一看网页源码：
 当我用 **m3u8** 文件的请求链接在网页源码中搜索后发现，链接就出现在源码中：
-![AcFun](\img\acfun2.png)
+![AcFun](./img/acfun2.png)
 因为在源码中是以 **JSON** 数据存放的：
-![AcFun](\img\acfun3.png)
+![AcFun](./img/acfun3.png)
 所以我们需要将数据格式化，方便我们进行数据提取：
-![AcFun](\img\acfun4.png)
+![AcFun](./img/acfun4.png)
 虽然我将该数据格式化以后发现，有一个字段的值居然也是一个 **JSON** 数据的格式，所以我们再对第二层的 **JSON** 数据进行格式化后可以看到以下信息：
-![AcFun](\img\acfun5.png)
+![AcFun](./img/acfun5.png)
 对于未登录时的状态，即使网页端不能直接播放，但是页面早已经给我们准备好了播放链接（B 站则是加载当前账户或着未登录时能观看的最大清晰度），所以我们可以在未登陆的情况下访问高清资源。
 
 ```python
@@ -57,7 +57,7 @@ choice = int(input("请选择清晰度: "))
 
 首先，我们拿到一个 **m3u8** 文件来作为案例：
 为了方便，在这里我手动的写了一个 **m3u8** 文件来作为例子。
-![AcFun](\img\acfun6.png)
+![AcFun](./img/acfun6.png)
 我们知道，在 **m3u8** 文件中的视频链接都是 **.ts** 的分段格式，所以我们必须要先想办法将所有的 **.ts** 链接都拿出来，并且加上前缀，拼装成视频的真实完整的链接：(在这里假设视频原前缀为 [https://www.acfun.cn/](https://www.acfun.cn/))
 
 ```python
@@ -72,7 +72,7 @@ def get_ts_urls():
 
 通过以上方法，我们就可以通过 **m3u8** 文件来获取每一段的视频链接了，接下来，我们再将下载的功能进行完善：
 
-> 下载的基本思路还是和我以前的一篇文章的思路一样：[用最普通的方法爬取 ts 文件并合成为 mp4 格式](/Python/网络爬虫/用最普通的方法爬取ts文件并合成为mp4格式)
+> 下载的基本思路还是和我以前的一篇文章的思路一样：[用最普通的方法爬取 ts 文件并合成为 mp4 格式](/skill/m3u8.md)
 
 ```python
 class Download():
@@ -185,8 +185,8 @@ m3u8_url(url1).get_m3u8()
 ```
 
 效果：
-![AcFun](\img\acfun7.png)
-![AcFun](\img\acfun8.png)
+![AcFun](./img/acfun7.png)
+![AcFun](./img/acfun8.png)
 
 **哦豁~ 起飞~~**
 
@@ -201,9 +201,9 @@ m3u8_url(url1).get_m3u8()
 > [租借女友](https://www.acfun.cn/bangumi/aa6002917)
 
 针对这部番剧，我们直接从单个视频解析方式来获取经验 -----> 直接从网页源码开始：
-![AcFun](\img\acfun9.png)
+![AcFun](./img/acfun9.png)
 果然也在源码中找到了与单个视频类似的 **JSON** 数据，我们继续将这些数据进行格式化：
-![AcFun](\img\acfun10.png)
+![AcFun](./img/acfun10.png)
 结果视频的 **存放方式** 和 **存放的字段** 和单个视频 **一摸一样**，为了减少最后的代码量，我们可以将两种方式都适配到一个类中：
 
 ```python
@@ -253,7 +253,7 @@ class m3u8_url():
 - **first_json** = json.loads(re.findall('window.pageInfo = window.\*? = (.\_?)};', html)[0] + '}', strict=False) ：更改视频信息的匹配正则表达式，可以同时用来匹配单个视频和番剧视频。
 
 知道了某一集怎么下载，总不可能要每一集都要去手动输入链接吧！！！遇到只有几集的番剧还好，要是遇到这样的：
-![AcFun](\img\acfun11.png)
+![AcFun](./img/acfun11.png)
 
 **你来？？？**
 
@@ -262,7 +262,7 @@ class m3u8_url():
 ### 获取番剧剧集链接
 
 同样的，我们还是从网页源码出发：
-![AcFun](\img\acfun12.png)
+![AcFun](./img/acfun12.png)
 虽然我们能在源码中找到番剧的所有信息，但是，并不是所有的都是我们需要的，我们还要先去看看哪些信息是我们必须要拿到的：
 当我点击第二集时，浏览器地址栏的地址发生了变化：
 
@@ -426,5 +426,5 @@ elif url1.split('/')[3] == 'bangumi':
 ```
 
 效果示例：
-![AcFun](\img\acfun13.png)
-![AcFun](\img\acfun14.png)
+![AcFun](./img/acfun13.png)
+![AcFun](./img/acfun14.png)

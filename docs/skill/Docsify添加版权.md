@@ -48,4 +48,4 @@
 ```
 
 效果如下：
-![复制添加版权](/img/copyText.gif)
+![复制添加版权](./img/copyText.gif)

@@ -9,7 +9,7 @@
 
 此次，我采用了两种方式来完成这一次的爬虫实例：
 
-- 1、**requests 版：** 通过浏览器的开发者工具抓包，分析 **发送的链接** 以及 **返回的数据** 来爬取。 直达：[AGE 动漫下载之 requests 版](/Python/网络爬虫/AGE动漫下载之requests版)
+- 1、**requests 版：** 通过浏览器的开发者工具抓包，分析 **发送的链接** 以及 **返回的数据** 来爬取。 直达：[AGE 动漫下载之 requests 版](age-requests.md)
 - 2、**selenium 版 ：** 通过驱动 **驱动浏览器** 来完成部分操作，并获取在完成 **JS 渲染后的网页源码** 来爬取。
 
 ---
@@ -18,7 +18,7 @@
 
 思路依旧从搜索入手！
 我们以 **“约会”** 为关键词来编写**第一版**的代码：
-![age-selenium](\img\age-selenium1.png)
+![age-selenium](./img/age-selenium1.png)
 
 ```python
 from selenium import webdriver
@@ -70,7 +70,7 @@ def print_info(browser):
 
 打印结果示例：
 
-![age-selenium](\img\age-selenium2.png)
+![age-selenium](./img/age-selenium2.png)
 当我们打印好全部信息后，就可以开始获取所选剧集的每一集链接：
 
 ```python
@@ -92,7 +92,7 @@ def video_urls(url):
 
 > html = browser.execute_script("return document.documentElement.outerHTML")
 >
-> ![age-selenium](\img\age-selenium3.png)
+> ![age-selenium](./img/age-selenium3.png)
 
 因为获取当前视频链接时可能会出错，所以我用来一个临时变量 **errow_url = list(video_url.keys())** 来作为依据，判断是否获取完所有的视频链接。
 
@@ -118,7 +118,7 @@ def download_parsing():
 
 **但是，** 直到我获取到 **JS 渲染后** 的代码后发现，蓝色方框内的代码依然找不到。
 **不过，** 我又发现在 **\<iframe>...\</iframe>** 标签中有一段类似的链接，不过好像被加密了，幸好加密不难，直接导库解密。
-![age-selenium](\img\age-selenium4.png)
+![age-selenium](./img/age-selenium4.png)
 
 ```python
 def download_parsing():
@@ -134,7 +134,7 @@ def download_parsing():
 ## 优化结构
 
 到目前为止，确实能够获取当前视频的全部下载链接，但是，只能加载这一个算什么，我在后期尝试后发现，当视频的加载线路是 **‘A’** 的话， **\<iframe>...\</iframe>** 标签中的链接比真实的视频链接多了 **&t=mp4** 的后缀。
-![age-selenium](\img\age-selenium5.png)
+![age-selenium](./img/age-selenium5.png)
 所以我进行了一点点小优化：
 
 ```python
@@ -152,8 +152,8 @@ def download_parsing():
 ```
 
 解决了线路导致的链接问题，接下来就该解决某些视频有分段的情况：
-![age-selenium](\img\age-selenium6.png)
-![age-selenium](\img\age-selenium7.png)
+![age-selenium](./img/age-selenium6.png)
+![age-selenium](./img/age-selenium7.png)
 基本思路如下：
 
 **检索**是否有分段信息：
@@ -169,7 +169,7 @@ def download_parsing():
 >   **<class 'selenium.common.exceptions.NoSuchElementException'>Message: no such element: Unable to locate element: {"method":"link text","selector":"分段 1"}**
 >
 > **原因：** 根据 **_selenium_** 的 [官方文档](https://selenium-python-zh.readthedocs.io/en/latest/index.html) 可以看到，被查找的链接文本在 **\<a>...\</a>** 标签内，说明： **.find_element_by_link_text()** 和 **.find_element_by_partial_link_text()** 只能查找 **\<a>...\</a>** 标签内的链接文本。
-> ![age-selenium](\img\age-selenium8.png)
+> ![age-selenium](./img/age-selenium8.png)
 
 ```python
 def download_parsing():
@@ -262,7 +262,7 @@ def video_download():
 
 ## 遗留问题
 
-**问题描述**：在**有列表**的情况下，遍历下载时，起初我想用我之前写的一个方法(详情请见：[Python 爬虫用最普通的方法爬取 ts 文件并合成为 mp4 格式](/Python/网络爬虫/用最普通的方法爬取ts文件并合成为mp4格式))将分段视频合并，起初我的代码如下：改动的部分我用 **“#”** 隔出来了。
+**问题描述**：在**有列表**的情况下，遍历下载时，起初我想用我之前写的一个方法(详情请见：[Python 爬虫用最普通的方法爬取 ts 文件并合成为 mp4 格式](../skill/m3u8.md))将分段视频合并，起初我的代码如下：改动的部分我用 **“#”** 隔出来了。
 
 ```python
 def video_download():
@@ -446,6 +446,6 @@ if __name__ == '__main__':
 
 ## 结果及下载情况
 
-![age-selenium](\img\age-selenium9.png)
+![age-selenium](./img/age-selenium9.png)
 
 ---

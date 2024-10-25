@@ -1,8 +1,6 @@
-{docsify-updated}
-
 # 哔哩哔哩（bilibili）视频下载
 
-![bilibili](\img\bilibili.png)
+![bilibili](./img/bilibili.png)
 
 ## 导入
 
@@ -26,7 +24,7 @@
 
 既然方法一已经确定是模拟手机端的方式去请求，那么我们就直接开始分析：
 对该链接进行抓包，找了半天，并没有找到什么有用的信息，所以我就直接去查看网页源码：
-![bilibili](\img\bilibili1.png)
+![bilibili](./img/bilibili1.png)
 在仔细地查看源码后，就发现了如上所示的信息，视频的 **MP4** 链接和视频名就加载在源码之中。
 因为这些信息都储存在 **\<script>...\</script>** 标签中，虽然能够将所有内容提取出来，再转换为 **JSON** 格式进行提取，但是这样的话就显得有些麻烦了，我们直接用正则表达式来提取：
 
@@ -63,7 +61,7 @@ class BiLiBiLi_phone():
   > 从源码中提取的到的链接为：
   > http:**\u002F** **\u002F** upos-sz-mirrorkodo.bilivideo.com **\u002F** upgcxcode **\u002F** 10 **\u002F** 14 **\u002F** 230501410 **\u002F** 230501410-1-16.mp4?e=ig8euxZM2rNcNbdlhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&uipk=5&nbs=1&deadline=1601216024&gen=playurl&os=kodobv&oi=1971851232&trid=fcde238782674b78bf4425427c2a9ea3h&platform=html5&upsig=b98cc40700e7f05e614acf0acbd9b671&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,platform&mid=262968904&logo=80000000
   > 链接中包含了大量的 **\u002F** 字段，这是因为源码中加载的是转换为 **Unicode** 编码后的链接，所以要进行编码转化。
-  > ![bilibili](\img\bilibili2.png)
+  > ![bilibili](./img/bilibili2.png)
 
 ## 方法二：第三方解析
 
@@ -78,13 +76,13 @@ class BiLiBiLi_phone():
 
 > 介于这个网站的特殊性：当输入链接为：
 > **https://www.bilibili.com/video/BV1R54y1e7J3?spm_id_from=333.5.b_646f7567615f6d6164.4** 时会出现以下报错
-> ![bilibili1](\img\bilibili3.png)
+> ![bilibili1](./img/bilibili3.png)
 > 所以需要将后面的部分信息去掉！
 
 将准备好的链接放到解析网站可以得到以下信息：
-![bilibili](\img\bilibili4.png)
+![bilibili](./img/bilibili4.png)
 由于网站的特殊性，若选取 **MP4 文件** ，有时会出现视频分成多个的情况，所以我在这里主要选取 **FLV 文件** 。
-![bilibili](\img\bilibili5.png)
+![bilibili](./img/bilibili5.png)
 我们可以很清楚的看到，该接口返回的内容中，是一些属于 **HTML 标签** 的信息，在这里不编写清晰度选择的代码，有需要的可以自行编写，直接选取清晰度最好的一个来解析。
 
 ### 参考代码
@@ -142,7 +140,7 @@ class BiLiBiLi_api():
 - **video_url = re.findall('href="(.\*?)"', r.json()['msg'])[0] .replace('amp;', '')**
   > 同之前所说的，未标黄的部分也还是基本操作，就是利用正则表达式来提取信息，而对于所标黄的部分，这是因为所解析到的链接中含有 HTML 的转移字符：
   > http://cn-cq-gd-bcache-15.bilivideo.com/upgcxcode/10/14/230501410/230501410-1-80.flv?e=ig8euxZM2rNcNbu1hbUVhoMahWNBhwdEto8g5X10ugNcXBlqNxHxNEVE5XREto8KqJZHUa6m5J0SqE85tZvEuENvNC8xNEVE9EKE9IMvXBvE2ENvNCImNEVEK9GVqJIwqa80WXIekXRE9IMvXBvEuENvNCImNEVEua6m2jIxux0CkF6s2JZv5x0DQJZY2F8SkXKE9IB5QK \&amp; deadline=1601220310 \&amp; gen=playurl \&amp; nbs=1 \&amp; oi=1696943910 \&amp; os=bcache \&amp; platform=pc \&amp; trid=380e02a6015c4f6c89df5944e35a87a8 \&amp; uipk=5 \&amp; upsig=062c2af07c4454f8641dc7552b1c1f3e \&amp; uparams=e,deadline,gen,nbs,oi,os,platform,trid,uipk \&amp; mid=0
-  > ![bilibili](\img\bilibili6.png)
+  > ![bilibili](./img/bilibili6.png)
 
 ## 方法三：原网站爬取
 
@@ -154,7 +152,7 @@ class BiLiBiLi_api():
 ### 分析与主要代码:
 
 打开网页进行抓包可以看到，对于视频播放时的数据请求为两种形式：
-![bilibili](\img\bilibili7.png)
+![bilibili](./img/bilibili7.png)
 
 - 1、**...230501410-1-30080.m4s?...**
 - 2、**...230501410-1-30280.m4s?...**
@@ -198,9 +196,9 @@ with open(path+"123.flv","wb")as f:
 
 **但是**！就算知道了谁是谁，怎么请求，请求的链接又从哪里来呢？
 我翻遍了请求链接都没有找到有用的信息，直到我查看到网页的源码：
-![bilibili](\img\bilibili8.png)
+![bilibili](./img/bilibili8.png)
 通过链接的部分信息我找到了在源码中一些链接，可以大致看出链接及信息储存在 **JSON** 数据，我们将它格式化后得到以下页面：
-![bilibili](\img\bilibili9.png)
+![bilibili](./img/bilibili9.png)
 为了后期方面添加选择清晰度的功能，所以这里我会通过对 JSON 数据
 的操作来获取数据，对应着最高清晰度，我们直接获取 **video 字段** 中的第一条链接，也就是当前的最高清晰度：
 

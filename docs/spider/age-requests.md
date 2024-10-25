@@ -8,7 +8,7 @@
 此次，我采用了两种方式来完成这一次的爬虫实例：
 
 - 1、**requests 版：** 通过浏览器的开发者工具抓包，分析 **发送的链接** 以及 **返回的数据** 来爬取。
-- 2、**selenium 版 ：** 通过驱动 **驱动浏览器** 来完成部分操作，并获取在完成 **JS 渲染后的网页源码** 来爬取。直达：[AGE 动漫下载之 selenium 版](/Python/网络爬虫/AGE动漫下载之selenium版)
+- 2、**selenium 版 ：** 通过驱动 **驱动浏览器** 来完成部分操作，并获取在完成 **JS 渲染后的网页源码** 来爬取。直达：[AGE 动漫下载之 selenium 版](./AGE动漫下载之selenium版.md)
 
 ---
 
@@ -24,7 +24,7 @@ url = 'http://agefans.org/search?q=' + keyword
 ```
 
 我们以 **“约会”** 为关键词来编写**第一版**的代码：
-![age-requests](\img\age-requests1.png)
+![age-requests](./img/age-requests1.png)
 我们可以很清楚的看到，搜索到的视频信息就保存在 **\<li>...\</li>** 标签中，但是，对视频的描述信息全都在 **class="card-body p-2" 的 div** 标签中，所以我们首先要拿到所有的 **class="card-body p-2" 的 div** 标签 :
 
 ## 打印搜索到的信息
@@ -58,20 +58,20 @@ def print_info(url):  # 输出搜索到的视频信息
 ## BeautifelSoup4 库使用提醒
 
 > **不过：这里有一点需要注意，**这也是我当初自学 **BeautifulSoup4** 库所**遗漏**的地方了：
-> ![age-requests](\img\age-requests2.png)
+> ![age-requests](./img/age-requests2.png)
 > 我们可以清楚的看到无论是保存在 **\<div>...\</div>** 还是在 **\<li>...\</li>** 标签中的信息，都由两个 **\<span>...\</span>** 标签包裹着。
 > 所以在访问第一个 **\<span>...\</span>** 标签的文本：**div.span.string**
 > 我们还知道访问下一个兄弟标签时使用： **当前标签.next_sibling**
 > 然而在这里，当我们想要访问第二个 **\<span>...\</span>** 标签的文本时，并不是使用 **div.span.next_sibling.string** ，而是**div.span.next_sibling.next_sibling.string**。
 > 至于为什么用两次 **.next_sibling** 呢？
-> 这个问题在 **BeautifulSoup4** 库的 **[官网文档](https://beautifulsoup.readthedocs.io/zh_CN/v4.4.0/)** 中就已经给了我们答案了：![age-requests](\img\age-requests3.png)
+> 这个问题在 **BeautifulSoup4** 库的 **[官网文档](https://beautifulsoup.readthedocs.io/zh_CN/v4.4.0/)** 中就已经给了我们答案了：![age-requests](./img/age-requests3.png)
 
 ### 小优化
 
 完成了信息的输出，一运行发现，居然有一个错误：
-![age-requests](\img\age-requests4.png)
+![age-requests](./img/age-requests4.png)
 这是为什么呢？当我们打开浏览器实际操作时发现：
-![age-requests](\img\age-requests5.png)
+![age-requests](./img/age-requests5.png)
 这个视频简介的第二个 **\<span>...\</span>** 标签的格式和之前的有所差别，我又找了几个类似的信息查看，觉得还是用简单粗暴的方法方便一点：
 直接获取整个标签，将所有的**换行元素标签** **\<br/>** 给替换掉！
 
@@ -93,11 +93,11 @@ print('\n' + '=' * 30 + '\n')
 成功打印出了搜索到的所有视频信息后，现在开始分析发送的请求，用来提取视频的下载链接：
 
 首先，该网站在视频打开后**不会直接加载第几集**，而是要我们选择，我们可以通过开发者工具可以获取到每一集的链接：
-![age-requests](\img\age-requests6.png)
+![age-requests](./img/age-requests6.png)
 当我们点击某一集后，开发者工具会为我们捕获到如下的请求信息：
-![age-requests](\img\age-requests7.png)
-![age-requests](\img\age-requests8.png)
-通过以上的两张图片，我们可以很清楚的发现这几条链接之间的关系，我试着将第二条请求返回的链接进行 **URL 解码** 发现：这就是视频的加载链接：![age-requests](\img\age-requests9.png)
+![age-requests](./img/age-requests7.png)
+![age-requests](./img/age-requests8.png)
+通过以上的两张图片，我们可以很清楚的发现这几条链接之间的关系，我试着将第二条请求返回的链接进行 **URL 解码** 发现：这就是视频的加载链接：![age-requests](./img/age-requests9.png)
 
 ### 获取视频链接
 
@@ -122,8 +122,8 @@ def get_relurl(name):
 
 ### 小优化：
 
-虽然在当前的视频看来，这样就已经能够满足我们的要求，但是，凡事都有例外！当我后期发现以下的情况的时候：![age-requests](\img\age-requests10.png)
-![age-requests](\img\age-requests11.png)
+虽然在当前的视频看来，这样就已经能够满足我们的要求，但是，凡事都有例外！当我后期发现以下的情况的时候：![age-requests](./img/age-requests10.png)
+![age-requests](./img/age-requests11.png)
 **总结：**
 
 - 1、每一集的第二次请求又有**两种样式。**
@@ -404,11 +404,11 @@ if __name__ == '__main__':
 ```
 
 下载结果拼接示例：
-![age-requests](\img\age-requests12.png)
+![age-requests](./img/age-requests12.png)
 
 ---
 
 ## 不知道是不是福利~
 
-由于此次的示例没有任何第三方依赖工具，所以可以把这个示例发送到手机上，**随身下载，随时看片**：详情请见：[Pydroid 3 第三方库安装失败的解决方案](/Python/网络爬虫/用最普通的方法爬取ts文件并合成为mp4格式)
-![age-requests](\img\age-requests13.png ":size:50%")
+由于此次的示例没有任何第三方依赖工具，所以可以把这个示例发送到手机上，**随身下载，随时看片**：详情请见：[Pydroid 3 第三方库安装失败的解决方案](/skill/m3u8.md)
+![age-requests](./img/age-requests13.png ":size:50%")
