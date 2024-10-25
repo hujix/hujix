@@ -1,6 +1,7 @@
 {
   "name": "hujix",
   "version": "1.0.0",
+  "packageManager": "pnpm@9.12.2",
   "description": "My blog",
   "author": "HuJix",
   "license": "MIT",
