@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as a}from"./chunks/framework.BDxlaA_J.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"coding/command.md","filePath":"coding/command.md","lastUpdated":1729872199000}'),o={name:"coding/command.md"};function c(n,d,r,m,s,i){return a(),t("div")}const f=e(o,[["render",c]]);export{_ as __pageData,f as default};
